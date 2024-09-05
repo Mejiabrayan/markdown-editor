@@ -167,8 +167,10 @@ export default function Editor(): JSX.Element {
               placeholder='Start writing...'
               value={content}
               onChange={handleContentChange}
-              className='w-full h-full min-h-[500px] p-4 bg-transparent border-none resize-none focus:ring-0 focus:outline-none font-mono editor-content'
+              className=' relative w-full h-full min-h-[500px] p-4 bg-transparent border-none resize-none focus:ring-0 focus:outline-none font-mono editor-content'
             />
+                  <div className="absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-white/30 via-10% to-transparent" />
+
             {isLoading && (
               <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
                 <div className='shimmer-text text-4xl font-bold font-sans'>
