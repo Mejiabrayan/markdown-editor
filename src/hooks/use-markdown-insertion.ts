@@ -5,27 +5,27 @@ export const useMarkdownInsertion = (
 ) => {
   const insertText = useCallback(
     (before: string, after: string = '') => {
-      const textarea = document.querySelector(
-        '.editor-content'
-      ) as HTMLTextAreaElement | null;
-      if (!textarea) return;
+      setContent(prevContent => {
+        const textarea = document.querySelector('.editor-content') as HTMLTextAreaElement | null;
+        if (!textarea) return prevContent;
 
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const text = textarea.value;
-      const newText =
-        text.substring(0, start) +
-        before +
-        text.substring(start, end) +
-        after +
-        text.substring(end);
-      setContent(newText);
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const newText =
+          prevContent.substring(0, start) +
+          before +
+          prevContent.substring(start, end) +
+          after +
+          prevContent.substring(end);
 
-      setTimeout(() => {
-        textarea.selectionStart = textarea.selectionEnd =
-          start + before.length + (end - start);
-        textarea.focus();
-      }, 0);
+        // Set the new cursor position
+        setTimeout(() => {
+          textarea.selectionStart = textarea.selectionEnd = start + before.length + (end - start);
+          textarea.focus();
+        }, 0);
+
+        return newText;
+      });
     },
     [setContent]
   );

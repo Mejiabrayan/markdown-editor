@@ -50,7 +50,7 @@ export const MarkdownComponents: Record<
   ),
   pre: ({ node, ...props }) => (
     <pre
-      className='bg-gray-100 rounded p-4 overflow-x-auto my-4 font-mono'
+      className='dark:bg-zinc-900 rounded p-4 overflow-x-auto my-4 font-mono'
       {...props}
     />
   ),

@@ -54,7 +54,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground selection:bg-[#D1FBE5] selection:dark:text-black;
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: var(--font-geist-sans);
 
@@ -67,11 +67,12 @@
   }
 
   .prose {
-    @apply max-w-none;
+    @apply max-w-none prose-pre:bg-none;
   }
 
   .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
     @apply font-bold mb-4 mt-6;
+    @apply text-[#38352F] dark:text-[#EAE7E1];
   }
 
   .prose p {
@@ -93,4 +94,30 @@
   .editor-content {
     @apply min-h-screen text-lg resize-none bg-transparent border-none focus:outline-none focus:ring-0 w-full placeholder:text-muted-foreground/50 ;
   }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, #4b5563 25%, #9ca3af 50%, #4b5563 75%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s infinite;
+}
+
+.dark .shimmer-text {
+  background: linear-gradient(90deg, #d1d5db 25%, #f3f4f6 50%, #d1d5db 75%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
