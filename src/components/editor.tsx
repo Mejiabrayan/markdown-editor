@@ -137,7 +137,9 @@ export default function Editor(): JSX.Element {
 
   return (
     <div className='w-full max-w-4xl mx-auto px-4 py-8 space-y-6'>
-      <div className='bg-background dark:bg-zinc-950 border border-black/10 dark:border-white/10 rounded-lg p-2 flex flex-wrap items-center gap-2 shadow-sm'>
+      <div className='relative bg-background dark:bg-zinc-950 border border-black/10 dark:border-white/10 rounded-lg p-2 flex flex-wrap items-center gap-2 shadow-sm'>
+        <div className='absolute left-5 top-0 h-px w-80 bg-gradient-to-r from-transparent via-white/30 via-10% to-transparent' />
+
         <HeadingMenu insertText={insertText} />
         {toolbarActions.map((action, index) => (
           <ToolbarButton
@@ -167,9 +169,9 @@ export default function Editor(): JSX.Element {
               placeholder='Start writing...'
               value={content}
               onChange={handleContentChange}
-              className=' relative w-full h-full min-h-[500px] p-4 bg-transparent border-none resize-none focus:ring-0 focus:outline-none font-mono editor-content'
+              className='relative w-full h-full min-h-[500px] p-4 bg-transparent border-none resize-none focus:ring-0 focus:outline-none font-mono editor-content'
             />
-                  <div className="absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-white/30 via-10% to-transparent" />
+            <div className='absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-white/30 via-10% to-transparent' />
 
             {isLoading && (
               <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
