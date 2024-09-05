@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
+# AI-Powered Markdown Editor
+
+![Markdown Editor Screenshot](/markdown.png)
+
+An intelligent Markdown editor with AI-powered suggestions and real-time preview.
+
+## Features
+
+- **Rich Markdown Editing**: Full support for Markdown syntax with a user-friendly toolbar.
+- **AI-Powered Suggestions**: Get intelligent suggestions to improve your writing.
+- **Real-Time Preview**: See your formatted Markdown as you type.
+- **Dark Mode Support**: Comfortable editing in any lighting condition.
+- **Word and Character Count**: Keep track of your document's length.
+- **Responsive Design**: Works great on desktop and mobile devices.
+
+### Markdown Tools
+
+- Bold, Italic, Underline formatting
+- Headings (H1 to H6)
+- Quotes
+- Lists (ordered and unordered)
+- Image insertion
+- Link creation
+- Code blocks
+- Table generator
+
+### AI Assistance
+
+- Get suggestions for improving your Markdown content
+- Enhance clarity and structure of your writing
+- Option to replace or append AI suggestions
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+2. Install dependencies with `pnpm install`
+3. Run the development server with `pnpm run dev`
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technologies Used
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- OpenAI API
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load Inter, a custom Google Font.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
