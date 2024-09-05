@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Bold,
@@ -34,6 +34,13 @@ export default function Editor(): JSX.Element {
   const insertText = useMarkdownInsertion(setContent);
   const [suggestion, setSuggestion] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Focus on the textarea when the component mounts
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, []);
 
   const handleSuggest = async () => {
     setIsLoading(true);
