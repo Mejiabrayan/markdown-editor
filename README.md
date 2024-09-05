@@ -1,6 +1,6 @@
 # AI-Powered Markdown Editor
 
-![Markdown Editor Screenshot]("./public/markdown.png")
+![Markdown Editor Screenshot](./public/markdown.png)
 
 An intelligent Markdown editor with AI-powered suggestions and real-time preview.
 
