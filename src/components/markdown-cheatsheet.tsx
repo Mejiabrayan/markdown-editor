@@ -30,7 +30,7 @@ export function MarkdownCheatSheet() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon">
-          <HelpCircle className="h-[1.2rem] w-[1.2rem] text-muted-foreground hover:text-foreground" />
+          <HelpCircle className="h-[1.2rem] w-[1.2rem] text-white text-muted-foreground hover:text-foreground" />
         </Button>
       </SheetTrigger>
       <SheetContent>

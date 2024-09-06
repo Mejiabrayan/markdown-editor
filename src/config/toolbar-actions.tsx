@@ -92,9 +92,5 @@ export const createToolbarActions = (
     tooltip: 'Preview',
     action: () => setPreviewMode(!previewMode),
   },
-  {
-    icon: <HelpCircle size={18} />,
-    tooltip: 'Markdown Cheat Sheet',
-    action: () => {}, 
-  },
+
 ];

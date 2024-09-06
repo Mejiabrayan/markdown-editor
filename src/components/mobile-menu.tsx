@@ -65,7 +65,7 @@ export function MobileMenu({ actions }: MobileMenuProps) {
                         <Button
                           variant='ghost'
                           size='icon'
-                          className='h-8 w-8 flex-shrink-0'
+                          
                         >
                           {action.icon}
                         </Button>
