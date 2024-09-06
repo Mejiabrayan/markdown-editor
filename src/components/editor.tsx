@@ -2,31 +2,19 @@
 
 import React, { useRef, useEffect } from 'react';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Bold,
-  Italic,
-  Underline,
-  Quote,
-  List,
-  Image as ImageIcon,
-  Link,
-  Eye,
-  Table,
-  Code,
-  Sparkles,
-} from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { MarkdownCheatSheet } from './markdown-cheatsheet';
 import { MarkdownComponents } from './markdown-components';
 import { ToolbarButton } from './toolbar-button';
-import { HeadingMenu } from './heading-menu';
 import { useWordCount } from '../hooks/use-word-count';
 import { useMarkdownInsertion } from '../hooks/use-markdown-insertion';
 import { aiSuggest } from '../actions';
 import { Button } from './ui/button';
-
 import { useEditorStore } from '../store/editor-store';
+import { MobileMenu } from './mobile-menu';
+import { useMediaQuery } from '../hooks/use-media-query';
+import { createToolbarActions } from '@/config/toolbar-actions';
 
 export default function Editor(): JSX.Element {
   const {
@@ -42,12 +30,12 @@ export default function Editor(): JSX.Element {
   const [suggestion, setSuggestion] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { countWords } = useWordCount();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.focus();
     }
-    // Initialize word count on component mount
     setWordCount(countWords(content));
   }, []);
 
@@ -78,89 +66,35 @@ export default function Editor(): JSX.Element {
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
     setContent(newContent);
-    const newWordCount = countWords(newContent);
-    setWordCount(newWordCount);
+    setWordCount(countWords(newContent));
   };
 
-  const insertTable = (): void => {
-    const tableTemplate = `
-| Column 1 | Column 2 | Column 3 |
-| -------- | -------- | -------- |
-| Row 1, Col 1 | Row 1, Col 2 | Row 1, Col 3 |
-| Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
-`;
-    insertText(tableTemplate);
-  };
-
-  const toolbarActions = [
-    {
-      icon: <Bold size={18} />,
-      tooltip: 'Bold',
-      action: () => insertText('**', '**'),
-    },
-    {
-      icon: <Italic size={18} />,
-      tooltip: 'Italic',
-      action: () => insertText('*', '*'),
-    },
-    {
-      icon: <Underline size={18} />,
-      tooltip: 'Underline',
-      action: () => insertText('<u>', '</u>'),
-    },
-    {
-      icon: <Quote size={18} />,
-      tooltip: 'Quote',
-      action: () => insertText('> '),
-    },
-    {
-      icon: <List size={18} />,
-      tooltip: 'List',
-      action: () => insertText('- '),
-    },
-    {
-      icon: <ImageIcon size={18} />,
-      tooltip: 'Image',
-      action: () => insertText('![Alt text](https://example.com/image.jpg)'),
-    },
-    {
-      icon: <Link size={18} />,
-      tooltip: 'Link',
-      action: () => insertText('[', '](https://example.com)'),
-    },
-    {
-      icon: <Code size={18} />,
-      tooltip: 'Code',
-      action: () => insertText('```', '```'),
-    },
-    { icon: <Table size={18} />, tooltip: 'Table', action: insertTable },
-    {
-      icon: <Sparkles size={18} />,
-      tooltip: 'Get Suggestion',
-      action: handleSuggest,
-    },
-    {
-      icon: <Eye size={18} />,
-      tooltip: 'Preview',
-      action: () => setPreviewMode(!previewMode),
-    },
-  ];
+  const toolbarActions = createToolbarActions(
+    insertText,
+    handleSuggest,
+    setPreviewMode,
+    previewMode
+  );
 
   return (
     <div className='w-full max-w-4xl mx-auto px-4 py-8 space-y-6'>
       <div className='relative bg-background dark:bg-zinc-950 border border-black/10 dark:border-white/10 rounded-lg p-2 flex flex-wrap items-center gap-2 shadow-sm'>
         <div className='absolute left-5 top-0 h-px w-80 bg-gradient-to-r from-transparent via-white/30 via-10% to-transparent' />
 
-        <HeadingMenu insertText={insertText} />
-        {toolbarActions.map((action, index) => (
-          <ToolbarButton
-            key={index}
-            icon={action.icon}
-            tooltip={action.tooltip}
-            onClick={action.action}
-          />
-        ))}
-        <MarkdownCheatSheet />
+        {isMobile ? (
+          <MobileMenu actions={toolbarActions} />
+        ) : (
+          <>
+            {toolbarActions.map((action, index) => (
+              <ToolbarButton
+                key={index}
+                icon={action.icon}
+                tooltip={action.tooltip}
+                onClick={action.action}
+              />
+            ))}
+          </>
+        )}
       </div>
 
       <div className='min-h-[500px] bg-background dark:bg-zinc-950 border border-black/10 dark:border-white/10 rounded-lg shadow-sm relative'>
@@ -196,16 +130,10 @@ export default function Editor(): JSX.Element {
                 <h3 className='font-semibold mb-2'>Suggestion:</h3>
                 <p>{suggestion}</p>
                 <div className='flex gap-2 mt-2'>
-                  <Button
-                    onClick={replaceSuggestion}
-                    className='px-4 py-2 bg-none border border-black/10 dark:border-white/10 rounded-md text-sm font-semibold text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10'
-                  >
+                  <Button onClick={replaceSuggestion}>
                     Replace Content
                   </Button>
-                  <Button
-                    onClick={appendSuggestion}
-                    className='px-4 py-2 bg-none border border-black/10 dark:border-white/10 rounded-md text-sm font-semibold text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10'
-                  >
+                  <Button onClick={appendSuggestion}>
                     Append to Content
                   </Button>
                 </div>
