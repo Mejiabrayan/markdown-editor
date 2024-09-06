@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Bold,
@@ -26,20 +26,29 @@ import { useMarkdownInsertion } from '../hooks/use-markdown-insertion';
 import { aiSuggest } from '../actions';
 import { Button } from './ui/button';
 
+import { useEditorStore } from '../store/editor-store';
+
 export default function Editor(): JSX.Element {
-  const [content, setContent] = useState<string>('');
-  const [previewMode, setPreviewMode] = useState<boolean>(false);
-  const { wordCount, countWords } = useWordCount();
+  const {
+    content,
+    setContent,
+    previewMode,
+    setPreviewMode,
+    wordCount,
+    setWordCount,
+  } = useEditorStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const insertText = useMarkdownInsertion(setContent);
-  const [suggestion, setSuggestion] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const insertText = useMarkdownInsertion();
+  const [suggestion, setSuggestion] = React.useState<string>('');
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const { countWords } = useWordCount();
 
   useEffect(() => {
-    // Focus on the textarea when the component mounts
     if (textareaRef.current) {
       textareaRef.current.focus();
     }
+    // Initialize word count on component mount
+    setWordCount(countWords(content));
   }, []);
 
   const handleSuggest = async () => {
@@ -61,14 +70,16 @@ export default function Editor(): JSX.Element {
   };
 
   const appendSuggestion = () => {
-    setContent((prevContent) => prevContent + '\n\n' + suggestion);
+    const newContent = content + '\n\n' + suggestion;
+    setContent(newContent);
     setSuggestion('');
   };
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
     setContent(newContent);
-    countWords(newContent);
+    const newWordCount = countWords(newContent);
+    setWordCount(newWordCount);
   };
 
   const insertTable = (): void => {

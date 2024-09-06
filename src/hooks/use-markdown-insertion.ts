@@ -1,33 +1,32 @@
 import { useCallback } from 'react';
+import { useEditorStore } from '../store/editor-store';
 
-export const useMarkdownInsertion = (
-  setContent: React.Dispatch<React.SetStateAction<string>>
-) => {
+export const useMarkdownInsertion = () => {
+  const { content, setContent } = useEditorStore();
+
   const insertText = useCallback(
     (before: string, after: string = '') => {
-      setContent(prevContent => {
-        const textarea = document.querySelector('.editor-content') as HTMLTextAreaElement | null;
-        if (!textarea) return prevContent;
+      const textarea = document.querySelector('.editor-content') as HTMLTextAreaElement | null;
+      if (!textarea) return;
 
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        const newText =
-          prevContent.substring(0, start) +
-          before +
-          prevContent.substring(start, end) +
-          after +
-          prevContent.substring(end);
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const newText =
+        content.substring(0, start) +
+        before +
+        content.substring(start, end) +
+        after +
+        content.substring(end);
 
-        // Set the new cursor position
-        setTimeout(() => {
-          textarea.selectionStart = textarea.selectionEnd = start + before.length + (end - start);
-          textarea.focus();
-        }, 0);
+      setContent(newText);
 
-        return newText;
-      });
+      // Set the new cursor position
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + before.length + (end - start);
+        textarea.focus();
+      }, 0);
     },
-    [setContent]
+    [content, setContent]
   );
 
   return insertText;

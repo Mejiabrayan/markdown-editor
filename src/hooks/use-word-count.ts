@@ -1,13 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
+import { useEditorStore } from '../store/editor-store';
 
 export const useWordCount = () => {
-  const [wordCount, setWordCount] = useState(0);
+  const { setWordCount } = useEditorStore();
 
   const countWords = useCallback((text: string) => {
     const count = text.trim().split(/\s+/).filter(word => word !== '').length;
     setWordCount(count);
     return count;
-  }, []);
+  }, [setWordCount]);
 
-  return { wordCount, countWords };
+  return { countWords };
 };
